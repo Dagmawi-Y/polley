@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "secondary" | "ghost";
+  variant?: "default" | "secondary" | "ghost" | "primary";
   size?: "sm" | "md" | "lg";
   asChild?: boolean;
 }
@@ -13,6 +13,7 @@ const base =
 
 const variants: Record<NonNullable<ButtonProps["variant"]>, string> = {
   default: "bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90",
+  primary: "bg-primary-themed text-white hover:opacity-90",
   secondary:
     "bg-neutral-100 text-neutral-900 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700",
   ghost:
