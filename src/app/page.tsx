@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Home() {
@@ -16,7 +17,7 @@ export default function Home() {
             <div className="space-y-8">
               <div className="space-y-6">
                 <h1 className="text-5xl lg:text-7xl font-bold tracking-tight leading-tight">
-                  Create Polls That{" "}
+                  Polls That{" "}
                   <span className="text-primary-themed bg-gradient-to-r from-primary-themed to-primary-themed/80 bg-clip-text text-transparent">
                     Matter
                   </span>
@@ -35,19 +36,19 @@ export default function Home() {
                 </Button>
               </div>
               
-              <div className="flex items-center gap-8 text-sm text-neutral-600 dark:text-neutral-400">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="font-medium">Free to use</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                  <span className="font-medium">Real-time results</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
-                  <span className="font-medium">Easy sharing</span>
-                </div>
+              <div className="flex flex-wrap items-center gap-4 text-sm">
+                <Badge variant="secondary" className="gap-2 bg-green-50 text-green-700 border-green-200 dark:bg-green-950 dark:text-green-300 dark:border-green-800">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  Free to use
+                </Badge>
+                <Badge variant="secondary" className="gap-2 bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                  Real-time results
+                </Badge>
+                <Badge variant="secondary" className="gap-2 bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950 dark:text-purple-300 dark:border-purple-800">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+                  Easy sharing
+                </Badge>
               </div>
             </div>
             

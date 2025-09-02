@@ -3,58 +3,87 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/components/auth-provider";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 
 export function Navbar() {
   const { user, signOut } = useAuth();
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    if (!isHomePage) return;
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 100);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isHomePage]);
+
+  const navbarClasses = isHomePage 
+    ? `fixed top-0 z-50 w-full transition-all duration-500 ease-in-out ${
+        isScrolled 
+          ? "translate-y-0 border-b border-neutral-200/30 bg-white/95 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80 dark:border-neutral-800/30 dark:bg-neutral-900/95 dark:supports-[backdrop-filter]:bg-neutral-900/80 shadow-lg" 
+          : "-translate-y-full"
+      }`
+    : "fixed top-0 z-50 w-full border-b border-neutral-200/30 bg-white/95 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80 dark:border-neutral-800/30 dark:bg-neutral-900/95 dark:supports-[backdrop-filter]:bg-neutral-900/80";
 
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-neutral-200/20 bg-white/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 dark:border-neutral-800/20 dark:bg-neutral-950/80 dark:supports-[backdrop-filter]:bg-neutral-950/60">
+    <header className={navbarClasses}>
       <div className="container mx-auto flex h-16 items-center justify-between px-6">
-        <div className="flex items-center gap-8">
+        {/* Left side - Navigation (hidden on mobile, shown on desktop) */}
+        <nav className="hidden md:flex items-center gap-6 flex-1">
+          <Link 
+            href="/polls" 
+            className="text-sm font-medium text-neutral-600 hover:text-primary-themed dark:text-neutral-400 dark:hover:text-primary-themed transition-all duration-200 hover:scale-105"
+          >
+            Browse Polls
+          </Link>
+          <Link 
+            href="/polls/new" 
+            className="text-sm font-medium text-neutral-600 hover:text-primary-themed dark:text-neutral-400 dark:hover:text-primary-themed transition-all duration-200 hover:scale-105"
+          >
+            Create Poll
+          </Link>
+        </nav>
+
+        {/* Center - Logo and Brand */}
+        <div className="flex items-center justify-center flex-1 md:flex-initial">
           <Link href="/" className="group flex items-center gap-3">
-            <div className="relative w-10 h-10 overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 group-hover:scale-105">
-              <Image
-                src="/polley-logo.png"
-                alt="Polley Logo"
-                width={40}
-                height={40}
-                className="object-contain"
-                priority
-              />
-            </div>
+            <Image
+              src="/polley-logo.png"
+              alt="Polley Logo"
+              width={48}
+              height={48}
+              className="object-contain transition-all duration-200 group-hover:scale-105"
+              priority
+            />
             <span className="text-xl font-bold text-neutral-900 dark:text-neutral-100 group-hover:text-primary-themed transition-colors">
               Polley
             </span>
           </Link>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link 
-              href="/polls" 
-              className="text-sm font-medium text-neutral-600 hover:text-primary-themed dark:text-neutral-400 dark:hover:text-primary-themed transition-all duration-200 hover:scale-105"
-            >
-              Browse Polls
-            </Link>
-            <Link 
-              href="/polls/new" 
-              className="text-sm font-medium text-neutral-600 hover:text-primary-themed dark:text-neutral-400 dark:hover:text-primary-themed transition-all duration-200 hover:scale-105"
-            >
-              Create Poll
-            </Link>
-          </nav>
         </div>
-        
-        <div className="flex items-center gap-4">
-          <ThemeSwitcher />
+
+        {/* Right side - Theme switcher and Auth */}
+        <div className="flex items-center gap-4 flex-1 justify-end">
+          {/* Only show theme switcher when not on home page or when scrolled */}
+          {(!isHomePage || isScrolled) && <ThemeSwitcher />}
           
           {user ? (
             <div className="flex items-center gap-3">
               <div className="hidden sm:flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-themed/20 to-primary-themed/40 flex items-center justify-center">
-                  <span className="text-xs font-semibold text-primary-themed">
+                <Avatar className="h-8 w-8">
+                  <AvatarFallback className="bg-gradient-to-br from-primary-themed/20 to-primary-themed/40 text-primary-themed text-xs font-semibold">
                     {user.email?.charAt(0).toUpperCase()}
-                  </span>
-                </div>
+                  </AvatarFallback>
+                </Avatar>
                 <span className="text-sm text-neutral-600 dark:text-neutral-300 font-medium">
                   {user.email}
                 </span>
@@ -77,6 +106,24 @@ export function Navbar() {
               </Button>
             </div>
           )}
+        </div>
+
+        {/* Mobile Navigation Menu - if needed */}
+        <div className="md:hidden absolute left-4">
+          <nav className="flex items-center gap-4">
+            <Link 
+              href="/polls" 
+              className="text-xs font-medium text-neutral-600 hover:text-primary-themed dark:text-neutral-400 dark:hover:text-primary-themed transition-all duration-200"
+            >
+              Polls
+            </Link>
+            <Link 
+              href="/polls/new" 
+              className="text-xs font-medium text-neutral-600 hover:text-primary-themed dark:text-neutral-400 dark:hover:text-primary-themed transition-all duration-200"
+            >
+              Create
+            </Link>
+          </nav>
         </div>
       </div>
     </header>

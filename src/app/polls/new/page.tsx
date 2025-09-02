@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
 export default function NewPollPage() {
@@ -17,12 +18,12 @@ export default function NewPollPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <label className="text-sm" htmlFor="question">Question</label>
+            <Label htmlFor="question">Question</Label>
             <Input id="question" placeholder="What's your question?" />
           </div>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">Options</span>
+              <Label className="font-medium">Options</Label>
               <Button
                 variant="secondary"
                 onClick={() => setOptions((o) => [...o, ""])}

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export default function PollsPage() {
   return (
@@ -17,7 +18,12 @@ export default function PollsPage() {
                 <CardDescription>Short description of the poll.</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-neutral-600 dark:text-neutral-300">0 votes • 3 options</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-neutral-600 dark:text-neutral-300">0 votes • 3 options</p>
+                  <Badge variant="outline" className="text-xs">
+                    Active
+                  </Badge>
+                </div>
               </CardContent>
             </Card>
           </Link>

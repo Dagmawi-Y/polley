@@ -4,6 +4,9 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Label } from "@/components/ui/label";
+import { AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
 
@@ -45,10 +48,15 @@ export default function SignUpPage() {
         <CardTitle>Create account</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {error && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
         <form onSubmit={handleSignUp} className="space-y-4">
           <div className="space-y-2">
-            <label className="text-sm" htmlFor="name">Name</label>
+            <Label htmlFor="name">Name</Label>
             <Input
               id="name"
               placeholder="Jane Doe"
@@ -58,7 +66,7 @@ export default function SignUpPage() {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm" htmlFor="email">Email</label>
+            <Label htmlFor="email">Email</Label>
             <Input
               id="email"
               type="email"
@@ -69,7 +77,7 @@ export default function SignUpPage() {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm" htmlFor="password">Password</label>
+            <Label htmlFor="password">Password</Label>
             <Input
               id="password"
               type="password"

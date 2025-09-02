@@ -59,7 +59,7 @@ export function ThemeSwitcher() {
     const x2 = 18 + radius * Math.cos(endAngleRad);
     const y2 = 18 + radius * Math.sin(endAngleRad);
     
-    const innerRadius = isActive ? 6 : 8;
+    const innerRadius = isActive ? 4 : 6;
     const x3 = 18 + innerRadius * Math.cos(endAngleRad);
     const y3 = 18 + innerRadius * Math.sin(endAngleRad);
     const x4 = 18 + innerRadius * Math.cos(startAngleRad);
@@ -120,25 +120,6 @@ export function ThemeSwitcher() {
               }`}
             />
           ))}
-          
-          {/* Center circle with current theme indicator */}
-          <circle
-            cx="18"
-            cy="18"
-            r="5"
-            fill={currentColor.color}
-            className="drop-shadow-sm"
-          />
-          
-          {/* Inner highlight */}
-          <circle
-            cx="18"
-            cy="18"
-            r="3"
-            fill="none"
-            stroke="rgba(255,255,255,0.4)"
-            strokeWidth="0.5"
-          />
         </svg>
         
         {/* Hover effect overlay */}
