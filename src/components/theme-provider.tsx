@@ -55,7 +55,16 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [theme, colorTheme]);
 
   const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+    const newTheme = theme === "light" ? "dark" : "light";
+    
+    // Auto-switch problematic color themes
+    if (newTheme === "dark" && colorTheme === "white") {
+      setColorTheme("blue"); // Switch to default blue when going to dark mode with white theme
+    } else if (newTheme === "light" && colorTheme === "black") {
+      setColorTheme("blue"); // Switch to default blue when going to light mode with black theme
+    }
+    
+    setTheme(newTheme);
   };
 
   return (

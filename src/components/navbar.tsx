@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/components/auth-provider";
 import { ThemeSwitcher } from "@/components/theme-switcher";
@@ -12,10 +13,16 @@ export function Navbar() {
     <header className="fixed top-0 z-50 w-full border-b border-neutral-200/20 bg-white/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 dark:border-neutral-800/20 dark:bg-neutral-950/80 dark:supports-[backdrop-filter]:bg-neutral-950/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-6">
         <div className="flex items-center gap-8">
-          <Link href="/" className="group flex items-center gap-2">
-            <div className="relative">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-themed/80 to-primary-themed shadow-lg"></div>
-              <div className="absolute inset-1 rounded-md bg-white/20 dark:bg-black/20"></div>
+          <Link href="/" className="group flex items-center gap-3">
+            <div className="relative w-10 h-10 overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 group-hover:scale-105">
+              <Image
+                src="/polley-logo.png"
+                alt="Polley Logo"
+                width={40}
+                height={40}
+                className="object-contain"
+                priority
+              />
             </div>
             <span className="text-xl font-bold text-neutral-900 dark:text-neutral-100 group-hover:text-primary-themed transition-colors">
               Polley

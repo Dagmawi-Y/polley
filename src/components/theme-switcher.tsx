@@ -18,22 +18,29 @@ export function ThemeSwitcher() {
   const { theme, colorTheme, toggleTheme, setColorTheme } = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Find current color index
-  useEffect(() => {
-    const index = colorThemes.findIndex(t => t.value === colorTheme);
-    setCurrentIndex(index >= 0 ? index : 0);
-  }, [colorTheme]);
+  // Filter themes based on current light/dark mode
+  const availableThemes = colorThemes.filter(t => {
+    if (theme === "dark" && t.value === "black") return false;
+    if (theme === "light" && t.value === "white") return false;
+    return true;
+  });
 
-  const currentColor = colorThemes[currentIndex];
-  const nextIndex = (currentIndex + 1) % colorThemes.length;
+  // Find current color index in available themes
+  useEffect(() => {
+    const index = availableThemes.findIndex(t => t.value === colorTheme);
+    setCurrentIndex(index >= 0 ? index : 0);
+  }, [colorTheme, theme, availableThemes]);
+
+  const currentColor = availableThemes[currentIndex];
+  const nextIndex = (currentIndex + 1) % availableThemes.length;
   
   // Calculate circle segments for proper donut display
-  const segmentAngle = 360 / colorThemes.length;
+  const segmentAngle = 360 / availableThemes.length;
   const radius = 14;
   const circumference = 2 * Math.PI * radius;
 
   const handleColorChange = () => {
-    const nextTheme = colorThemes[nextIndex];
+    const nextTheme = availableThemes[nextIndex];
     setColorTheme(nextTheme.value);
   };
 
@@ -85,7 +92,7 @@ export function ThemeSwitcher() {
       <button
         onClick={handleColorChange}
         className="relative w-9 h-9 hover:scale-110 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-themed/50 rounded-full"
-        title={`Switch to ${colorThemes[nextIndex].name} theme`}
+        title={`Switch to ${availableThemes[nextIndex].name} theme`}
       >
         <svg width="36" height="36" className="transform -rotate-90">
           {/* Background circle */}
@@ -101,7 +108,7 @@ export function ThemeSwitcher() {
           />
           
           {/* Color segments */}
-          {colorThemes.map((themeColor, index) => (
+          {availableThemes.map((themeColor, index) => (
             <path
               key={themeColor.value}
               d={createSegmentPath(index, index === currentIndex)}
