@@ -329,6 +329,67 @@ html {
     rgb(var(--primary-color-dark) / 0.1) 100%);
 }
 
+/* Enhanced noise effects to complement existing grid patterns */
+.noise-overlay {
+  mix-blend-mode: overlay;
+  opacity: 0.7;
+}
+
+.dark .noise-overlay {
+  mix-blend-mode: screen;
+  opacity: 0.5;
+}
+
+.noise-multiply {
+  mix-blend-mode: multiply;
+  opacity: 0.8;
+}
+
+.dark .noise-multiply {
+  mix-blend-mode: soft-light;
+  opacity: 0.6;
+}
+
+.noise-screen {
+  mix-blend-mode: screen;
+  opacity: 0.6;
+}
+
+.dark .noise-screen {
+  mix-blend-mode: overlay;
+  opacity: 0.4;
+}
+
+/* Coarse grain specific styling */
+.coarse-grain {
+  position: relative;
+}
+
+.coarse-grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 2px 2px, rgba(0,0,0,0.1) 2px, transparent 0),
+    radial-gradient(circle at 4px 4px, rgba(0,0,0,0.05) 2px, transparent 0);
+  background-size: 8px 8px, 16px 16px;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: 0.4;
+}
+
+.dark .coarse-grain::after {
+  background-image: 
+    radial-gradient(circle at 2px 2px, rgba(255,255,255,0.08) 2px, transparent 0),
+    radial-gradient(circle at 4px 4px, rgba(255,255,255,0.04) 2px, transparent 0);
+  opacity: 0.3;
+}
+
+/* Noise canvas improvements for dark mode */
+.dark canvas {
+  filter: contrast(1.1) brightness(1.2);
+}
+
 /* Utility classes for themed colors */
 .text-primary-themed {
   color: rgb(var(--primary-color));

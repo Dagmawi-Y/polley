@@ -36,32 +36,16 @@ export function Navbar() {
     : "fixed top-0 z-50 w-full border-b border-neutral-200/30 bg-white/95 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80 dark:border-neutral-800/30 dark:bg-neutral-900/95 dark:supports-[backdrop-filter]:bg-neutral-900/80";
 
   return (
-    <header className={navbarClasses}>
-      <div className="container mx-auto flex h-16 items-center justify-between px-6">
-        {/* Left side - Navigation (hidden on mobile, shown on desktop) */}
-        <nav className="hidden md:flex items-center gap-6 flex-1">
-          <Link 
-            href="/polls" 
-            className="text-sm font-medium text-neutral-600 hover:text-primary-themed dark:text-neutral-400 dark:hover:text-primary-themed transition-all duration-200 hover:scale-105"
-          >
-            Browse Polls
-          </Link>
-          <Link 
-            href="/polls/new" 
-            className="text-sm font-medium text-neutral-600 hover:text-primary-themed dark:text-neutral-400 dark:hover:text-primary-themed transition-all duration-200 hover:scale-105"
-          >
-            Create Poll
-          </Link>
-        </nav>
-
-        {/* Center - Logo and Brand */}
-        <div className="flex items-center justify-center flex-1 md:flex-initial">
-          <Link href="/" className="group flex items-center gap-3">
+    <>
+      {/* Always visible logo on homepage - only when not scrolled */}
+      {isHomePage && !isScrolled && (
+        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50">
+          <Link href="/" className="group flex items-center">
             <Image
               src="/polley-logo.png"
               alt="Polley Logo"
-              width={48}
-              height={48}
+              width={70}
+              height={70}
               className="object-contain transition-all duration-200 group-hover:scale-105"
               priority
             />
@@ -70,9 +54,47 @@ export function Navbar() {
             </span>
           </Link>
         </div>
+      )}
+
+      <header className={navbarClasses}>
+        <div className="container mx-auto flex h-16 items-center justify-between px-6">
+          {/* Left side - Navigation (hidden on mobile, shown on desktop) */}
+          <nav className="hidden md:flex items-center gap-6 flex-1">
+            <Link 
+              href="/polls" 
+              className="text-sm font-medium text-neutral-600 hover:text-primary-themed dark:text-neutral-400 dark:hover:text-primary-themed transition-all duration-200 hover:scale-105"
+            >
+              Browse Polls
+            </Link>
+            <Link 
+              href="/polls/new" 
+              className="text-sm font-medium text-neutral-600 hover:text-primary-themed dark:text-neutral-400 dark:hover:text-primary-themed transition-all duration-200 hover:scale-105"
+            >
+              Create Poll
+            </Link>
+          </nav>
+
+          {/* Center - Logo and Brand (visible when scrolled on homepage OR always on other pages) */}
+          {(!isHomePage || isScrolled) && (
+            <div className="flex items-center justify-center flex-1 md:flex-initial">
+              <Link href="/" className="group flex items-center gap-3">
+                <Image
+                  src="/polley-logo.png"
+                  alt="Polley Logo"
+                  width={48}
+                  height={48}
+                  className="object-contain transition-all duration-200 group-hover:scale-105"
+                  priority
+                />
+                <span className="text-xl font-bold text-neutral-900 dark:text-neutral-100 group-hover:text-primary-themed transition-colors">
+                  Polley
+                </span>
+              </Link>
+            </div>
+          )}
 
         {/* Right side - Theme switcher and Auth */}
-        <div className="flex items-center gap-4 flex-1 justify-end">
+        <div className={`flex items-center gap-4 ${(!isHomePage || isScrolled) ? 'flex-1 justify-end' : 'ml-auto'}`}>
           {/* Only show theme switcher when not on home page or when scrolled */}
           {(!isHomePage || isScrolled) && <ThemeSwitcher />}
           
@@ -127,5 +149,6 @@ export function Navbar() {
         </div>
       </div>
     </header>
+    </>
   );
 }

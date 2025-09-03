@@ -5,12 +5,39 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Noise } from "@/components/ui/noise";
 
 export default function Home() {
   return (
-    <div className="grain-bg">
+    <div className="grain-bg relative">
+      {/* Coarse grain texture overlay */}
+      <div className="absolute inset-0 mix-blend-overlay pointer-events-none z-[1] dark:mix-blend-screen">
+        <Noise
+          patternSize={200}
+          patternScaleX={1}
+          patternScaleY={1}
+          patternRefreshInterval={5}
+          patternAlpha={35}
+          useThemeColor={true}
+          themeColorIntensity={0.15}
+          className="dark:opacity-60"
+        />
+      </div>
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col justify-center grain-hero">
+        {/* Hero-specific coarse grain */}
+        <div className="absolute inset-0 mix-blend-multiply pointer-events-none z-[2] dark:mix-blend-soft-light">
+          <Noise
+            patternSize={150}
+            patternScaleX={1.2}
+            patternScaleY={1}
+            patternRefreshInterval={3}
+            patternAlpha={30}
+            useThemeColor={true}
+            themeColorIntensity={0.2}
+            className="dark:opacity-70"
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-br from-primary-themed/5 via-transparent to-primary-themed/10"></div>
         <div className="container mx-auto px-4 relative z-10 flex-1 flex items-center">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
@@ -95,7 +122,19 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section id="features-section" className="py-20 bg-neutral-50/50 dark:bg-neutral-900/50 grain-section">
+      <section id="features-section" className="py-20 bg-neutral-50/50 dark:bg-neutral-900/50 grain-section relative">
+        {/* Subtle noise for features section */}
+        <div className="absolute inset-0 mix-blend-overlay pointer-events-none z-[1] dark:mix-blend-screen dark:opacity-40">
+          <Noise
+            patternSize={300}
+            patternScaleX={1}
+            patternScaleY={1}
+            patternRefreshInterval={8}
+            patternAlpha={20}
+            useThemeColor={true}
+            themeColorIntensity={0.08}
+          />
+        </div>
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold">
@@ -165,7 +204,19 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 grain-section">
+      <section className="py-20 grain-section relative">
+        {/* Stats noise effect */}
+        <div className="absolute inset-0 mix-blend-overlay pointer-events-none z-[1] dark:mix-blend-screen dark:opacity-30">
+          <Noise
+            patternSize={250}
+            patternScaleX={0.8}
+            patternScaleY={1.2}
+            patternRefreshInterval={6}
+            patternAlpha={15}
+            useThemeColor={true}
+            themeColorIntensity={0.12}
+          />
+        </div>
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div className="space-y-2">
@@ -185,7 +236,19 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-primary-themed/10 via-transparent to-primary-themed/10 grain-section">
+      <section className="py-20 bg-gradient-to-r from-primary-themed/10 via-transparent to-primary-themed/10 grain-section relative">
+        {/* Themed noise for CTA section */}
+        <div className="absolute inset-0 mix-blend-soft-light pointer-events-none z-[1] dark:mix-blend-overlay dark:opacity-50">
+          <Noise
+            patternSize={180}
+            patternScaleX={1}
+            patternScaleY={1}
+            patternRefreshInterval={4}
+            patternAlpha={25}
+            useThemeColor={true}
+            themeColorIntensity={0.25}
+          />
+        </div>
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto space-y-8">
             <h2 className="text-3xl lg:text-4xl font-bold">
