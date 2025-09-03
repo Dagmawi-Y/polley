@@ -122,7 +122,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section id="features-section" className="py-20 bg-neutral-50/50 dark:bg-neutral-900/50 grain-section relative">
+      <section id="features-section" className="min-h-screen flex flex-col justify-center py-20 bg-neutral-50/50 dark:bg-neutral-900/50 grain-section relative">
         {/* Subtle noise for features section */}
         <div className="absolute inset-0 mix-blend-overlay pointer-events-none z-[1] dark:mix-blend-screen dark:opacity-40">
           <Noise
