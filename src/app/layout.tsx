@@ -4,8 +4,6 @@ import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { AuthProvider } from "@/components/auth-provider";
 import { ThemeProvider } from "@/components/theme-provider";
-import { FloatingThemeToggle } from "@/components/floating-theme-toggle";
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -29,12 +27,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased grain-bg`}
+  className={`${geistSans.variable} ${geistMono.variable} antialiased grain-bg page-vertical-gradient`}
       >
         <ThemeProvider>
           <AuthProvider>
             <Navbar />
-            <FloatingThemeToggle />
             <main>
               {children}
             </main>

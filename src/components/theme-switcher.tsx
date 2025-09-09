@@ -91,7 +91,7 @@ export function ThemeSwitcher() {
       {/* Circular color theme switcher */}
       <button
         onClick={handleColorChange}
-        className="relative w-9 h-9 hover:scale-110 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-themed/50 rounded-full"
+        className="relative w-9 h-9 hover:scale-110 transition-all duration-300 focus:outline-none rounded-full"
         title={`Switch to ${availableThemes[nextIndex].name} theme`}
       >
         <svg width="36" height="36" className="transform -rotate-90">
