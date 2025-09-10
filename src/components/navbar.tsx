@@ -54,7 +54,7 @@ export function Navbar() {
   } ${
     isScrolled || !isHomePage
       ? "backdrop-blur-xl border-b border-neutral-200/20 dark:border-neutral-800/20"
-      : "backdrop-blur-md bg-white/5 dark:bg-neutral-900/5"
+      : ""
   }`;
 
   // Show minimal navbar at top of homepage
