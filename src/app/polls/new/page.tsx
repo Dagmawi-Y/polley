@@ -6,9 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { PollCard, type Poll } from '@/components/poll-card';
+import { PollCard } from '@/components/poll-card';
+import type { Poll } from '@/lib/types/database';
 import { Noise } from '@/components/ui/noise';
 import { cn } from '@/lib/utils';
+import { createPoll } from '@/lib/supabase/polls';
+import type { CreatePollData } from '@/lib/types/database';
 
 interface PollOption {
   id: string;
@@ -112,20 +115,42 @@ export default function CreatePollPage() {
     }
   };
 
-  const createPoll = async () => {
+  const createPollHandler = async () => {
     setIsCreating(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // In a real app, you'd send this to your API
-    console.log('Creating poll:', formData);
-    
-    // Generate a mock poll ID
-    const pollId = `poll_${Date.now()}`;
-    
-    setIsCreating(false);
-    router.push(`/polls/success?id=${pollId}`);
+    try {
+      // Prepare poll data
+      const pollData: CreatePollData = {
+        title: formData.title,
+        description: formData.description || undefined,
+        options: formData.options
+          .filter(opt => opt.text.trim().length > 0)
+          .map(opt => opt.text.trim()),
+        isPublic: formData.settings.isPublic,
+        allowMultiple: formData.settings.allowMultiple,
+        requireAuth: formData.settings.requireAuth,
+        expiresAt: formData.settings.expiresAt ? new Date(formData.settings.expiresAt) : undefined
+      };
+
+      // Create the poll
+      const { data: pollId, error } = await createPoll(pollData);
+
+      if (error) {
+        console.error('Error creating poll:', error);
+        // You could show an error toast here
+        alert(`Error creating poll: ${error}`);
+        return;
+      }
+
+      if (pollId) {
+        router.push(`/polls/success?id=${pollId}`);
+      }
+    } catch (err) {
+      console.error('Unexpected error:', err);
+      alert('An unexpected error occurred while creating the poll');
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   const getPreviewPoll = (): Poll => ({
@@ -137,14 +162,20 @@ export default function CreatePollPage() {
       .map((opt, index) => ({
         id: opt.id,
         text: opt.text || `Option ${index + 1}`,
-        votes: Math.floor(Math.random() * 50)
+        position: index + 1,
+        votes: 0, // No votes in preview
+        percentage: 0
       })),
     totalVotes: 0,
     status: 'draft' as const,
     createdAt: new Date(),
+    updatedAt: new Date(),
     expiresAt: formData.settings.expiresAt ? new Date(formData.settings.expiresAt) : undefined,
     isPublic: formData.settings.isPublic,
-    allowMultiple: formData.settings.allowMultiple
+    allowMultiple: formData.settings.allowMultiple,
+    requireAuth: formData.settings.requireAuth,
+    createdBy: undefined,
+    uniqueVoters: 0
   });
 
   return (
@@ -590,7 +621,7 @@ export default function CreatePollPage() {
                 </Button>
               ) : (
                 <Button
-                  onClick={createPoll}
+                  onClick={createPollHandler}
                   disabled={!canProceed(currentStep) || isCreating}
                   className="bg-primary-themed hover:opacity-90 text-white flex items-center gap-2 min-w-[140px]"
                 >

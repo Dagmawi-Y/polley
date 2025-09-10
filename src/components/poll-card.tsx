@@ -6,25 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Noise } from '@/components/ui/noise';
 import { cn } from '@/lib/utils';
-
-export interface PollOption {
-  id: string;
-  text: string;
-  votes: number;
-}
-
-export interface Poll {
-  id: string;
-  title: string;
-  description?: string;
-  options: PollOption[];
-  totalVotes: number;
-  status: 'active' | 'closed' | 'draft';
-  createdAt: Date;
-  expiresAt?: Date;
-  isPublic: boolean;
-  allowMultiple?: boolean;
-}
+import type { Poll, PollOption } from '@/lib/types/database';
 
 interface PollCardProps {
   poll: Poll;

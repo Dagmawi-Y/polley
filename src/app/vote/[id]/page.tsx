@@ -1,88 +1,115 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { PollCard, type Poll } from '@/components/poll-card';
+import { PollCard } from '@/components/poll-card';
 import { Noise } from '@/components/ui/noise';
-
-// Mock poll data - same as in the individual poll page
-const mockPolls: Record<string, Poll> = {
-  '1': {
-    id: '1',
-    title: 'What\'s your favorite season?',
-    description: 'Help us understand seasonal preferences for our upcoming product launch.',
-    options: [
-      { id: '1a', text: 'Spring - Fresh starts and blooming flowers', votes: 45 },
-      { id: '1b', text: 'Summer - Warm weather and long days', votes: 78 },
-      { id: '1c', text: 'Fall - Cozy vibes and beautiful colors', votes: 62 },
-      { id: '1d', text: 'Winter - Snow and holiday magic', votes: 23 }
-    ],
-    totalVotes: 208,
-    status: 'active',
-    createdAt: new Date('2024-01-15'),
-    expiresAt: new Date('2024-02-15'),
-    isPublic: true
-  },
-  '2': {
-    id: '2',
-    title: 'Best programming language for beginners?',
-    description: 'Share your thoughts on which language newcomers should learn first.',
-    options: [
-      { id: '2a', text: 'Python - Simple syntax and versatile', votes: 156 },
-      { id: '2b', text: 'JavaScript - Essential for web development', votes: 134 },
-      { id: '2c', text: 'Java - Strong fundamentals and job market', votes: 89 },
-      { id: '2d', text: 'C++ - Deep understanding of programming', votes: 34 },
-      { id: '2e', text: 'Go - Modern and efficient', votes: 67 }
-    ],
-    totalVotes: 480,
-    status: 'active',
-    createdAt: new Date('2024-01-10'),
-    isPublic: true
-  },
-  'demo': {
-    id: 'demo',
-    title: 'What\'s your favorite development framework?',
-    description: 'Help us understand the current preferences in the developer community.',
-    options: [
-      { id: 'react', text: 'React - Component-based and flexible', votes: 145 },
-      { id: 'vue', text: 'Vue.js - Progressive and approachable', votes: 89 },
-      { id: 'angular', text: 'Angular - Full-featured and structured', votes: 67 },
-      { id: 'svelte', text: 'Svelte - Compile-time optimized', votes: 34 },
-      { id: 'solid', text: 'SolidJS - Fine-grained reactivity', votes: 23 }
-    ],
-    totalVotes: 358,
-    status: 'active',
-    createdAt: new Date('2024-01-15'),
-    expiresAt: new Date('2024-02-15'),
-    isPublic: true
-  }
-};
+import { getPollResults, castVote, hasUserVoted } from '@/lib/supabase/polls';
+import type { Poll } from '@/lib/types/database';
 
 export default function VotePage() {
   const params = useParams();
   const pollId = params.id as string;
-  const [poll, setPoll] = useState<Poll | null>(mockPolls[pollId] || null);
+  const [poll, setPoll] = useState<Poll | null>(null);
   const [hasVoted, setHasVoted] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleVote = (optionId: string) => {
+  // Load poll data on mount
+  useEffect(() => {
+    async function loadPoll() {
+      try {
+        setLoading(true);
+        
+        // Get poll results
+        const { data: pollData, error: pollError } = await getPollResults(pollId);
+        
+        if (pollError) {
+          setError(pollError);
+          return;
+        }
+        
+        if (!pollData) {
+          setError('Poll not found');
+          return;
+        }
+        
+        setPoll(pollData);
+        
+        // Check if user has already voted
+        const { data: voted } = await hasUserVoted(pollId);
+        setHasVoted(voted);
+        
+      } catch (err) {
+        console.error('Error loading poll:', err);
+        setError('Failed to load poll');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (pollId) {
+      loadPoll();
+    }
+  }, [pollId]);
+
+  const handleVote = async (optionId: string) => {
     if (!poll || hasVoted) return;
 
-    setPoll(prevPoll => ({
-      ...prevPoll!,
-      options: prevPoll!.options.map(option =>
-        option.id === optionId
-          ? { ...option, votes: option.votes + 1 }
-          : option
-      ),
-      totalVotes: prevPoll!.totalVotes + 1
-    }));
-    
-    setHasVoted(true);
+    try {
+      // Cast the vote
+      const { error: voteError } = await castVote({
+        pollId: poll.id,
+        optionId: optionId
+      });
+
+      if (voteError) {
+        alert(`Error casting vote: ${voteError}`);
+        return;
+      }
+
+      // Reload poll results to get updated vote counts
+      const { data: updatedPoll, error: pollError } = await getPollResults(pollId);
+      
+      if (pollError) {
+        console.error('Error reloading poll:', pollError);
+      } else if (updatedPoll) {
+        setPoll(updatedPoll);
+      }
+      
+      setHasVoted(true);
+    } catch (err) {
+      console.error('Error voting:', err);
+      alert('An unexpected error occurred while voting');
+    }
   };
 
-  if (!poll) {
+  // Loading state
+  if (loading) {
+    return (
+      <div className="grain-bg min-h-screen">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-themed/5 via-transparent to-primary-themed/10 pointer-events-none" />
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-md mx-auto text-center space-y-6">
+            <div className="w-16 h-16 mx-auto rounded-full bg-primary-themed/10 flex items-center justify-center">
+              <div className="w-8 h-8 border-2 border-primary-themed/30 border-t-primary-themed rounded-full animate-spin" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold mb-2">Loading Poll...</h1>
+              <p className="text-neutral-600 dark:text-neutral-400">
+                Please wait while we fetch the poll data.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error || !poll) {
     return (
       <div className="grain-bg min-h-screen">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-themed/5 via-transparent to-primary-themed/10 pointer-events-none" />
@@ -94,9 +121,11 @@ export default function VotePage() {
               </svg>
             </div>
             <div>
-              <h1 className="text-2xl font-bold mb-2">Poll Not Found</h1>
+              <h1 className="text-2xl font-bold mb-2">
+                {error === 'Poll not found' ? 'Poll Not Found' : 'Error Loading Poll'}
+              </h1>
               <p className="text-neutral-600 dark:text-neutral-400">
-                This poll doesn't exist, has been removed, or the link is incorrect.
+                {error || 'This poll doesn\'t exist, has been removed, or the link is incorrect.'}
               </p>
             </div>
             <Button asChild>
