@@ -134,7 +134,7 @@ export default function Home() {
         />
       </div>
       {/* Hero Section */}
-      <section className="relative grain-hero pt-16 sm:pt-20 lg:pt-24 pb-4 sm:pb-6">
+      <section className="relative grain-hero min-h-screen pt-16 sm:pt-20 lg:pt-24 pb-4 sm:pb-6 flex items-center">
         {/* Simplified background */}
         <div className="absolute inset-0 mix-blend-soft-light pointer-events-none z-[1] dark:mix-blend-overlay">
           <Noise
@@ -149,7 +149,7 @@ export default function Home() {
           />
         </div>
 
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10 w-full">
           <div className="max-w-5xl mx-auto">
             <div className="text-center space-y-3 sm:space-y-4">
               {/* Main content */}
@@ -223,34 +223,34 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
-            {/* Scroll indicator - more compact and always visible */}
-            <div className="flex justify-center mt-4 sm:mt-6 pb-2 sm:pb-4">
-              <button
-                onClick={() => {
-                  const featuresSection = document.getElementById('features-section');
-                  featuresSection?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="flex flex-col items-center gap-1 sm:gap-2 text-neutral-400 hover:text-primary-themed transition-all duration-300 hover:scale-110 group"
-              >
-                <span className="text-xs sm:text-sm font-medium tracking-wide">Discover more</span>
-                <div className="animate-bounce group-hover:animate-pulse">
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                  </svg>
-                </div>
-              </button>
-            </div>
           </div>
+        </div>
+
+        {/* Scroll indicator - positioned at bottom of screen */}
+        <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+          <button
+            onClick={() => {
+              const featuresSection = document.getElementById('features-section');
+              featuresSection?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="flex flex-col items-center gap-1 sm:gap-2 text-neutral-400 hover:text-primary-themed transition-all duration-300 hover:scale-110 group"
+          >
+            <span className="text-xs sm:text-sm font-medium tracking-wide">Discover more</span>
+            <div className="animate-bounce group-hover:animate-pulse">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </div>
+          </button>
         </div>
       </section>
 
       {/* Features Section */}
       <section
         id="features-section"
-        className="py-16 sm:py-20 lg:py-24 grain-section relative"
+        className="py-20 sm:py-28 lg:py-32 grain-section relative overflow-hidden"
       >
-        {/* Subtle noise for features section */}
+        {/* Enhanced background effects */}
         <div className="absolute inset-0 mix-blend-overlay pointer-events-none z-[1] dark:mix-blend-screen dark:opacity-40">
           <Noise
             patternSize={300}
@@ -262,80 +262,134 @@ export default function Home() {
             themeColorIntensity={0.08}
           />
         </div>
+
+        {/* Floating geometric shapes */}
+        <div className="absolute inset-0 pointer-events-none z-[2]">
+          <div className="absolute top-20 left-10 w-20 h-20 bg-primary-themed/5 rounded-full blur-xl animate-pulse"></div>
+          <div className="absolute top-40 right-20 w-16 h-16 bg-primary-themed/10 rounded-lg rotate-45 animate-bounce" style={{animationDelay: '1s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-12 h-12 bg-primary-themed/8 rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
+        </div>
+
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-14">
-            <div className="flex items-center justify-center">
-              <Badge variant="secondary" className="bg-primary-themed/10 text-primary-themed border-primary-themed/20">
-                Features
-              </Badge>
+          {/* Enhanced header with animation */}
+          <div className="text-center space-y-4 sm:space-y-6 mb-16 sm:mb-20">
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-primary-themed/10 via-primary-themed/5 to-primary-themed/10 border border-primary-themed/20 backdrop-blur-sm animate-fade-in">
+              <div className="w-2 h-2 bg-primary-themed rounded-full animate-pulse"></div>
+              <span className="text-sm font-semibold text-primary-themed tracking-wide">Features</span>
+              <div className="w-2 h-2 bg-primary-themed rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight px-4">
-              Everything You Need to Create Great Polls
-            </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto px-4">
-              From yes/no questions to multi-step surveys—design, share, and analyze with a polished, fast workflow.
-            </p>
+
+            <div className="space-y-4">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight leading-tight animate-slide-up">
+                Everything You Need to{" "}
+                <span className="text-primary-themed bg-gradient-to-r from-primary-themed to-primary-themed/60 bg-clip-text text-transparent">
+                  Create Great Polls
+                </span>
+              </h2>
+              <p className="text-lg sm:text-xl lg:text-2xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto leading-relaxed animate-slide-up" style={{animationDelay: '0.2s'}}>
+                From yes/no questions to multi-step surveys—design, share, and analyze with a polished, fast workflow.
+              </p>
+            </div>
           </div>
 
+          {/* Interactive feature cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {features.map((f) => (
-              <Card
+            {features.map((f, index) => (
+              <div
                 key={f.key}
-                className="group relative overflow-hidden border-neutral-200/50 dark:border-neutral-800/60 bg-white/60 dark:bg-neutral-900/60 supports-[backdrop-filter]:backdrop-blur rounded-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_40px_-12px_rgba(0,0,0,0.25)]"
+                className="group relative animate-slide-up"
+                style={{animationDelay: `${index * 0.1}s`}}
               >
-                {/* soft gradient wash */}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary-themed/0 via-primary-themed/0 to-primary-themed/10 opacity-70" />
-                {/* top accent line */}
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary-themed/40 to-transparent" />
+                {/* Card with enhanced hover effects */}
+                <div className="relative h-full p-6 sm:p-8 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl rounded-3xl border border-neutral-200/50 dark:border-neutral-800/50 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] overflow-hidden">
 
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <div className="relative size-12 shrink-0 rounded-xl bg-primary-themed/10 ring-1 ring-primary-themed/20 grid place-items-center">
-                      <Image
-                        src={f.icon}
-                        alt=""
-                        width={28}
-                        height={28}
-                        className="opacity-90"
-                      />
-                    </div>
-                    <div>
-                      <CardTitle className="leading-tight">
-                        {f.title}
-                      </CardTitle>
-                      <CardDescription className="mt-1">
-                        {f.description}
-                      </CardDescription>
+                  {/* Animated background gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary-themed/5 via-transparent to-primary-themed/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                  {/* Floating particles effect */}
+                  <div className="absolute inset-0 pointer-events-none">
+                    <div className="absolute top-4 right-4 w-2 h-2 bg-primary-themed/30 rounded-full animate-ping" style={{animationDelay: '0s'}}></div>
+                    <div className="absolute top-8 right-8 w-1 h-1 bg-primary-themed/40 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
+                    <div className="absolute bottom-6 left-6 w-1.5 h-1.5 bg-primary-themed/20 rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
+                  </div>
+
+                  {/* Icon with enhanced animation */}
+                  <div className="relative mb-6">
+                    <div className="relative size-16 sm:size-20 rounded-2xl bg-gradient-to-br from-primary-themed/20 to-primary-themed/10 ring-2 ring-primary-themed/20 group-hover:ring-primary-themed/40 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 flex items-center justify-center overflow-hidden">
+                      {/* Animated background */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary-themed/10 to-primary-themed/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                      {/* Icon */}
+                      <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-300">
+                        <Image
+                          src={f.icon}
+                          alt=""
+                          width={32}
+                          height={32}
+                          className="opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+                        />
+                      </div>
+
+                      {/* Shine effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                     </div>
                   </div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <ul className="mt-4 space-y-3">
-                    {f.bullets.map((b) => (
-                      <li key={b} className="flex items-start gap-3 text-sm text-neutral-700 dark:text-neutral-300">
-                        <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-md bg-primary-themed/10 text-primary-themed ring-1 ring-primary-themed/20">
-                          {/* check icon */}
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            className="h-3.5 w-3.5"
-                            aria-hidden="true"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M10.28 16.53a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06l2.72 2.72 6.22-6.22a.75.75 0 1 1 1.06 1.06l-6.75 6.75Z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+
+                  {/* Content */}
+                  <div className="relative z-10 space-y-4">
+                    <div>
+                      <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white group-hover:text-primary-themed transition-colors duration-300 mb-2">
+                        {f.title}
+                      </h3>
+                      <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed group-hover:text-neutral-700 dark:group-hover:text-neutral-200 transition-colors duration-300">
+                        {f.description}
+                      </p>
+                    </div>
+
+                    {/* Feature bullets with enhanced styling */}
+                    <ul className="space-y-3 pt-2">
+                      {f.bullets.map((b, bulletIndex) => (
+                        <li
+                          key={b}
+                          className="flex items-start gap-3 text-sm text-neutral-700 dark:text-neutral-300 group-hover:text-neutral-800 dark:group-hover:text-neutral-100 transition-colors duration-300"
+                          style={{animationDelay: `${(index * 0.1) + (bulletIndex * 0.05)}s`}}
+                        >
+                          <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary-themed/10 text-primary-themed ring-1 ring-primary-themed/20 group-hover:bg-primary-themed group-hover:text-white transition-all duration-300 group-hover:scale-110 flex-shrink-0">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              className="h-3 w-3"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M10.28 16.53a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06l2.72 2.72 6.22-6.22a.75.75 0 1 1 1.06 1.06l-6.75 6.75Z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </span>
+                          <span className="leading-relaxed">{b}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Hover glow effect */}
+                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary-themed/0 via-primary-themed/5 to-primary-themed/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                </div>
+              </div>
             ))}
+          </div>
+
+          {/* Call to action */}
+          <div className="text-center mt-16 sm:mt-20 animate-slide-up" style={{animationDelay: '0.6s'}}>
+            <p className="text-lg text-neutral-600 dark:text-neutral-300 mb-8">
+              Ready to experience these features yourself?
+            </p>
+            <Button asChild size="lg" className="bg-primary-themed hover:opacity-90 text-white shadow-2xl hover:shadow-primary-themed/25 transition-all duration-300 hover:scale-105 text-base px-8 py-4 rounded-xl">
+              <Link href="/polls/new">Start Creating Polls</Link>
+            </Button>
           </div>
         </div>
       </section>
