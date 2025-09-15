@@ -17,6 +17,8 @@ export default function Home() {
   const [overlayOpacity, setOverlayOpacity] = useState(1);
   const tickingRef = useRef(false);
 
+  const [particles, setParticles] = useState<Array<{left: string; top: string; animationDelay: string; animationDuration: string}>>([]);
+
   useEffect(() => {
     // Create a temp element to read the computed color for the class `text-primary-themed`.
     const probe = document.createElement("span");
@@ -59,6 +61,17 @@ export default function Home() {
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll(); // initialize on mount
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    // Generate random particles only on client side to avoid hydration mismatch
+    const generatedParticles = [...Array(12)].map(() => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      animationDelay: `${Math.random() * 5}s`,
+      animationDuration: `${2 + Math.random() * 3}s`
+    }));
+    setParticles(generatedParticles);
   }, []);
 
   const gradientStyle = useMemo(() => {
@@ -127,10 +140,10 @@ export default function Home() {
           patternScaleX={1}
           patternScaleY={1}
           patternRefreshInterval={5}
-          patternAlpha={35}
+          patternAlpha={20}
           useThemeColor={true}
           themeColorIntensity={0.15}
-          className="dark:opacity-60"
+          className="opacity-90 dark:opacity-40"
         />
       </div>
       {/* Hero Section */}
@@ -142,10 +155,10 @@ export default function Home() {
             patternScaleX={1}
             patternScaleY={1}
             patternRefreshInterval={4}
-            patternAlpha={15}
+            patternAlpha={12}
             useThemeColor={true}
             themeColorIntensity={0.1}
-            className="dark:opacity-40"
+            className="opacity-85 dark:opacity-30"
           />
         </div>
 
@@ -257,7 +270,7 @@ export default function Home() {
             patternScaleX={1}
             patternScaleY={1}
             patternRefreshInterval={8}
-            patternAlpha={20}
+            patternAlpha={18}
             useThemeColor={true}
             themeColorIntensity={0.08}
           />
@@ -393,7 +406,7 @@ export default function Home() {
             patternScaleX={1}
             patternScaleY={1}
             patternRefreshInterval={10}
-            patternAlpha={18}
+            patternAlpha={16}
             useThemeColor={true}
             themeColorIntensity={0.06}
           />
@@ -565,7 +578,7 @@ export default function Home() {
           {/* Interactive CTA */}
           <div className="text-center mt-16 sm:mt-20 animate-slide-up" style={{animationDelay: '1s'}}>
             <div className="inline-flex items-center gap-4 p-8 bg-gradient-to-r from-primary-themed/10 via-primary-themed/5 to-primary-themed/10 rounded-3xl border border-primary-themed/20 backdrop-blur-sm">
-              <div className="text-left">
+              <div className="text-center">
                 <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white mb-2">
                   Ready to Create Your First Poll?
                 </h3>
@@ -575,11 +588,6 @@ export default function Home() {
                 <Button asChild size="lg" className="bg-primary-themed hover:opacity-90 text-white shadow-2xl hover:shadow-primary-themed/25 transition-all duration-300 hover:scale-105 text-base px-8 py-3 rounded-xl">
                   <Link href="/polls/new">Start Creating Now</Link>
                 </Button>
-              </div>
-              <div className="hidden sm:block">
-                <div className="w-16 h-16 bg-primary-themed/20 rounded-2xl flex items-center justify-center animate-bounce">
-                  <span className="text-2xl">✨</span>
-                </div>
               </div>
             </div>
           </div>
@@ -753,7 +761,7 @@ export default function Home() {
             patternScaleX={1}
             patternScaleY={1}
             patternRefreshInterval={4}
-            patternAlpha={25}
+            patternAlpha={22}
             useThemeColor={true}
             themeColorIntensity={0.25}
           />
@@ -768,16 +776,11 @@ export default function Home() {
 
         {/* Floating particles */}
         <div className="absolute inset-0 pointer-events-none z-[3]">
-          {[...Array(12)].map((_, i) => (
+          {particles.map((particle, i) => (
             <div
               key={i}
               className="absolute w-2 h-2 bg-primary-themed/20 rounded-full animate-ping"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${2 + Math.random() * 3}s`
-              }}
+              style={particle}
             />
           ))}
         </div>
