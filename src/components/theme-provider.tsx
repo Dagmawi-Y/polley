@@ -44,26 +44,39 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     root.setAttribute("data-color-theme", colorTheme);
     
     // Handle black/white themes based on light/dark mode
+    // If colorTheme is incompatible with the current mode, coerce it immediately
     if (colorTheme === "black" && theme === "light") {
-      root.setAttribute("data-color-theme", "black");
+      // black doesn't play well in light mode — switch to default
+      setColorTheme("blue");
+      root.setAttribute("data-color-theme", "blue");
     } else if (colorTheme === "white" && theme === "dark") {
-      root.setAttribute("data-color-theme", "white");
+      // white doesn't play well in dark mode — switch to default
+      setColorTheme("blue");
+      root.setAttribute("data-color-theme", "blue");
+    } else {
+      root.setAttribute("data-color-theme", colorTheme);
     }
-    
-    localStorage.setItem("theme", theme);
-    localStorage.setItem("colorTheme", colorTheme);
+
+    // Persist current settings
+    try {
+      localStorage.setItem("theme", theme);
+      localStorage.setItem("colorTheme", colorTheme);
+    } catch (e) {
+      // ignore localStorage errors (e.g. privacy mode)
+    }
   }, [theme, colorTheme]);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
-    
-    // Auto-switch problematic color themes
+
+    // If the current colorTheme is incompatible with the target theme, update it first
     if (newTheme === "dark" && colorTheme === "white") {
-      setColorTheme("blue"); // Switch to default blue when going to dark mode with white theme
+      setColorTheme("blue");
     } else if (newTheme === "light" && colorTheme === "black") {
-      setColorTheme("blue"); // Switch to default blue when going to light mode with black theme
+      setColorTheme("blue");
     }
-    
+
+    // Now flip theme
     setTheme(newTheme);
   };
 

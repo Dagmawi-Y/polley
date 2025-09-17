@@ -19,6 +19,31 @@ export default function Home() {
 
   const [particles, setParticles] = useState<Array<{left: string; top: string; animationDelay: string; animationDuration: string}>>([]);
 
+  const features = [
+    {
+      key: "create",
+      title: "Effortless Creation",
+      description: "Spin up polls in minutes with an intuitive interface.",
+      icon: "/feature-create.svg",
+    },
+    {
+      key: "share",
+      title: "Share Anywhere",
+      description: "Reach audiences with smart links and embeds.",
+      icon: "/feature-share.svg",
+    },
+    {
+      key: "analytics",
+      title: "Live Analytics",
+      description: "Watch results in real-time with export options.",
+      icon: "/feature-analytics.svg",
+    },
+  ];
+
+  // State for feature preview animation
+  const [previewFeature, setPreviewFeature] = useState(features[0]);
+  const [isFading, setIsFading] = useState(false);
+
   useEffect(() => {
     // Create a temp element to read the computed color for the class `text-primary-themed`.
     const probe = document.createElement("span");
@@ -91,40 +116,6 @@ export default function Home() {
 
 
 
-  const features = [
-    {
-      key: "create",
-      title: "Effortless Creation",
-      description:
-        "Spin up beautiful polls in minutes with an interface that stays out of your way.",
-      icon: "/feature-create.svg",
-      bullets: [
-        "Multiple question types",
-        "Drafts and autosave",
-        "Keyboard-first workflow",
-      ],
-    },
-    {
-      key: "share",
-      title: "Share Anywhere",
-      description:
-        "Reach people where they are with smart links, embeds, and fine-grained access.",
-      icon: "/feature-share.svg",
-      bullets: [
-        "One-click share links",
-        "Embeds and QR codes",
-        "Access controls",
-      ],
-    },
-    {
-      key: "analytics",
-      title: "Live Analytics",
-      description:
-        "Watch results roll in with real-time charts and export-ready datasets.",
-      icon: "/feature-analytics.svg",
-      bullets: ["Real-time insights", "CSV export", "Anti-spam protections"],
-    },
-  ];
   return (
     <div className="grain-bg relative">
       {/* Global vertical primary gradient that fades on scroll */}
@@ -186,7 +177,7 @@ export default function Home() {
                 </h1>
 
                 <p className="text-sm sm:text-base lg:text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed max-w-2xl mx-auto px-4">
-                  Gather opinions, make decisions, and engage your audience with beautifully designed polls that are easy to create and share.
+                  Gather opinions and make decisions with beautiful polls.
                 </p>
               </div>
 
@@ -258,12 +249,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Redesigned Features Showcase Section */}
       <section
         id="features-section"
         className="py-20 sm:py-28 lg:py-32 grain-section relative overflow-hidden"
       >
-        {/* Enhanced background effects */}
         <div className="absolute inset-0 mix-blend-overlay pointer-events-none z-[1] dark:mix-blend-screen dark:opacity-40">
           <Noise
             patternSize={300}
@@ -276,128 +266,143 @@ export default function Home() {
           />
         </div>
 
-        {/* Floating geometric shapes */}
-        <div className="absolute inset-0 pointer-events-none z-[2]">
-          <div className="absolute top-20 left-10 w-20 h-20 bg-primary-themed/5 rounded-full blur-xl animate-pulse"></div>
-          <div className="absolute top-40 right-20 w-16 h-16 bg-primary-themed/10 rounded-lg rotate-45 animate-bounce" style={{animationDelay: '1s'}}></div>
-          <div className="absolute bottom-32 left-1/4 w-12 h-12 bg-primary-themed/8 rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
-        </div>
-
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          {/* Enhanced header with animation */}
-          <div className="text-center space-y-4 sm:space-y-6 mb-16 sm:mb-20">
-            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-primary-themed/10 via-primary-themed/5 to-primary-themed/10 border border-primary-themed/20 backdrop-blur-sm animate-fade-in">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-primary-themed/10 via-primary-themed/5 to-primary-themed/10 border border-primary-themed/20 backdrop-blur-sm">
               <div className="w-2 h-2 bg-primary-themed rounded-full animate-pulse"></div>
               <span className="text-sm font-semibold text-primary-themed tracking-wide">Features</span>
-              <div className="w-2 h-2 bg-primary-themed rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
             </div>
 
-            <div className="space-y-4">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight leading-tight animate-slide-up">
-                Everything You Need to{" "}
-                <span className="text-primary-themed bg-gradient-to-r from-primary-themed to-primary-themed/60 bg-clip-text text-transparent">
-                  Create Great Polls
-                </span>
-              </h2>
-              <p className="text-lg sm:text-xl lg:text-2xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto leading-relaxed animate-slide-up" style={{animationDelay: '0.2s'}}>
-                From yes/no questions to multi-step surveys—design, share, and analyze with a polished, fast workflow.
-              </p>
-            </div>
+            <h2 className="mt-6 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
+              Polley Showcase —
+              <span className="text-primary-themed bg-gradient-to-r from-primary-themed to-primary-themed/60 bg-clip-text text-transparent"> Interactive</span>
+            </h2>
+            <p className="mt-3 text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+              Click or hover a feature to preview it.
+            </p>
           </div>
 
-          {/* Interactive feature cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {features.map((f, index) => (
-              <div
-                key={f.key}
-                className="group relative animate-slide-up"
-                style={{animationDelay: `${index * 0.1}s`}}
-              >
-                {/* Card with enhanced hover effects */}
-                <div className="relative h-full p-6 sm:p-8 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl rounded-3xl border border-neutral-200/50 dark:border-neutral-800/50 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] overflow-hidden">
-
-                  {/* Animated background gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary-themed/5 via-transparent to-primary-themed/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                  {/* Floating particles effect */}
-                  <div className="absolute inset-0 pointer-events-none">
-                    <div className="absolute top-4 right-4 w-2 h-2 bg-primary-themed/30 rounded-full animate-ping" style={{animationDelay: '0s'}}></div>
-                    <div className="absolute top-8 right-8 w-1 h-1 bg-primary-themed/40 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
-                    <div className="absolute bottom-6 left-6 w-1.5 h-1.5 bg-primary-themed/20 rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
+          {/* Two-column interactive showcase: left = live preview, right = feature list/cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            {/* Left: Live Preview Canvas */}
+            <div className="relative">
+              <div className="rounded-3xl bg-gradient-to-br from-neutral-50 to-white/60 dark:from-neutral-900 dark:to-neutral-800/60 p-6 shadow-2xl backdrop-blur-md border border-neutral-200/40 dark:border-neutral-800/40 overflow-hidden">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-3 h-3 rounded-full bg-red-400" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                    <div className="w-3 h-3 rounded-full bg-green-400" />
                   </div>
+                  <div className="text-xs text-neutral-500">Live Preview</div>
+                </div>
 
-                  {/* Icon with enhanced animation */}
-                  <div className="relative mb-6">
-                    <div className="relative size-16 sm:size-20 rounded-2xl bg-gradient-to-br from-primary-themed/20 to-primary-themed/10 ring-2 ring-primary-themed/20 group-hover:ring-primary-themed/40 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 flex items-center justify-center overflow-hidden">
-                      {/* Animated background */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-primary-themed/10 to-primary-themed/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                      {/* Icon */}
-                      <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-300">
-                        <Image
-                          src={f.icon}
-                          alt=""
-                          width={32}
-                          height={32}
-                          className="opacity-90 group-hover:opacity-100 transition-opacity duration-300"
-                        />
+                <div className="rounded-2xl bg-gradient-to-b from-white/80 to-white/60 dark:from-neutral-800/70 dark:to-neutral-800/60 p-6 h-80 flex flex-col">
+                  {/* Dynamic preview area updated by state */}
+                  <div id="preview-canvas" className="flex-1 flex flex-col justify-center items-start gap-4">
+                    {/* ...existing content replaced by stateful preview (rendered below) */}
+                    <div className="w-full max-w-lg">
+                      <div className="mb-4">
+                        <div className={`text-sm text-neutral-500 transition-opacity duration-500 ease-in-out ${isFading ? 'opacity-0' : 'opacity-100'}`}>{previewFeature.description}</div>
+                        <h3 className={`text-2xl font-bold text-neutral-900 dark:text-white transition-opacity duration-500 ease-in-out ${isFading ? 'opacity-0' : 'opacity-100'}`}>{previewFeature.title}</h3>
                       </div>
 
-                      {/* Shine effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                      <div className="space-y-3" aria-live="polite">
+                        {/* small interactive mock */}
+                        <div className="bg-neutral-100 dark:bg-neutral-900/60 rounded-xl p-3 border border-neutral-200/40 dark:border-neutral-800/40">
+                          <div className="flex items-center justify-between">
+                            <div className="text-sm font-medium text-neutral-800 dark:text-white">Example question</div>
+                            <div className="text-xs text-neutral-500">12 votes</div>
+                          </div>
+
+                          <div className="mt-3 grid grid-cols-1 gap-2">
+                            <button className="w-full text-left px-3 py-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200/40 dark:border-neutral-700 shadow-sm hover:shadow-md transition">Option A</button>
+                            <button className="w-full text-left px-3 py-2 rounded-lg bg-white/50 dark:bg-neutral-800/40 border border-neutral-200/30 dark:border-neutral-700 shadow-sm hover:shadow-md transition">Option B</button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Content */}
-                  <div className="relative z-10 space-y-4">
-                    <div>
-                      <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white group-hover:text-primary-themed transition-colors duration-300 mb-2">
-                        {f.title}
-                      </h3>
-                      <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed group-hover:text-neutral-700 dark:group-hover:text-neutral-200 transition-colors duration-300">
-                        {f.description}
-                      </p>
+                  {/* Footer controls */}
+                  <div className="mt-4 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Badge variant="secondary">Interactive</Badge>
+                      <div className="text-sm text-neutral-500">Preview updates on selection</div>
                     </div>
-
-                    {/* Feature bullets with enhanced styling */}
-                    <ul className="space-y-3 pt-2">
-                      {f.bullets.map((b, bulletIndex) => (
-                        <li
-                          key={b}
-                          className="flex items-start gap-3 text-sm text-neutral-700 dark:text-neutral-300 group-hover:text-neutral-800 dark:group-hover:text-neutral-100 transition-colors duration-300"
-                          style={{animationDelay: `${(index * 0.1) + (bulletIndex * 0.05)}s`}}
-                        >
-                          <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary-themed/10 text-primary-themed ring-1 ring-primary-themed/20 group-hover:bg-primary-themed group-hover:text-white transition-all duration-300 group-hover:scale-110 flex-shrink-0">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
-                              className="h-3 w-3"
-                              aria-hidden="true"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M10.28 16.53a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06l2.72 2.72 6.22-6.22a.75.75 0 1 1 1.06 1.06l-6.75 6.75Z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </span>
-                          <span className="leading-relaxed">{b}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="flex items-center gap-2">
+                      <Button size="sm" variant="ghost">Reset</Button>
+                      <Button size="sm">Open Editor</Button>
+                    </div>
                   </div>
-
-                  {/* Hover glow effect */}
-                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary-themed/0 via-primary-themed/5 to-primary-themed/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Right: Feature cards list */}
+            <div className="space-y-4">
+              {features.map((f, idx) => (
+                <article
+                  key={f.key}
+                  role="button"
+                  tabIndex={0}
+                  onMouseEnter={() => {
+                    if (previewFeature.key !== f.key) {
+                      setIsFading(true);
+                      setTimeout(() => {
+                        setPreviewFeature(f);
+                        setIsFading(false);
+                      }, 250);
+                    }
+                  }}
+                  onFocus={() => {
+                    if (previewFeature.key !== f.key) {
+                      setIsFading(true);
+                      setTimeout(() => {
+                        setPreviewFeature(f);
+                        setIsFading(false);
+                      }, 250);
+                    }
+                  }}
+                  onClick={() => {
+                    if (previewFeature.key !== f.key) {
+                      setIsFading(true);
+                      setTimeout(() => {
+                        setPreviewFeature(f);
+                        setIsFading(false);
+                      }, 250);
+                    }
+                    // programmatic selection: populate preview mock with details
+                    const preview = document.getElementById('preview-canvas');
+                    if (!preview) return;
+                    // small visual pulse
+                    preview.animate([{ transform: 'scale(0.995)' }, { transform: 'scale(1)' }], { duration: 180 });
+                  }}
+                  className="group relative p-4 sm:p-6 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl rounded-2xl border border-neutral-200/50 dark:border-neutral-800/50 shadow hover:shadow-2xl transition-all duration-300 cursor-pointer focus:outline-none"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-primary-themed/20 to-primary-themed/10 flex items-center justify-center ring-1 ring-primary-themed/20 group-hover:scale-105 transition-transform duration-300">
+                      <Image src={f.icon} alt="" width={28} height={28} />
+                    </div>
+
+                    <div className="flex-1">
+                      <h4 className="text-lg font-semibold text-neutral-900 dark:text-white">{f.title}</h4>
+                      <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-300">{f.description}</p>
+                    </div>
+
+                    <div className="ml-3 hidden sm:flex items-center">
+                      <svg className="w-5 h-5 text-neutral-400 group-hover:text-primary-themed transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
+      {/* How It Works Section - Redesigned */}
       <section className="py-20 sm:py-28 lg:py-32 grain-section relative overflow-hidden">
         {/* Enhanced background effects */}
         <div className="absolute inset-0 mix-blend-overlay pointer-events-none z-[1] dark:mix-blend-screen dark:opacity-40">
@@ -412,12 +417,34 @@ export default function Home() {
           />
         </div>
 
-        {/* Animated connection lines */}
+        {/* Dynamic animated connection lines */}
         <div className="absolute inset-0 pointer-events-none z-[2] hidden lg:block">
           <svg className="w-full h-full" viewBox="0 0 1200 600" fill="none">
+            <defs>
+              <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="rgb(var(--primary-color))" stopOpacity="0.1" />
+                <stop offset="50%" stopColor="rgb(var(--primary-color))" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="rgb(var(--primary-color))" stopOpacity="0.1" />
+              </linearGradient>
+            </defs>
+            {/* Flowing connection lines */}
             <path
-              d="M200 200 Q400 150 600 200 Q800 250 1000 200"
-              stroke="url(#gradient1)"
+              d="M200 150 Q400 120 600 180 Q800 240 1000 180"
+              stroke="url(#flowGradient)"
+              strokeWidth="3"
+              className="opacity-30"
+              pathLength="1"
+            >
+              <animate
+                attributeName="stroke-dasharray"
+                values="0,1;1,0"
+                dur="4s"
+                repeatCount="indefinite"
+              />
+            </path>
+            <path
+              d="M200 250 Q400 280 600 220 Q800 160 1000 220"
+              stroke="url(#flowGradient)"
               strokeWidth="2"
               className="opacity-20"
               pathLength="1"
@@ -425,22 +452,15 @@ export default function Home() {
               <animate
                 attributeName="stroke-dasharray"
                 values="0,1;1,0"
-                dur="3s"
+                dur="6s"
                 repeatCount="indefinite"
               />
             </path>
-            <defs>
-              <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="rgb(var(--primary-color))" stopOpacity="0.3" />
-                <stop offset="50%" stopColor="rgb(var(--primary-color))" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="rgb(var(--primary-color))" stopOpacity="0.3" />
-              </linearGradient>
-            </defs>
           </svg>
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          {/* Enhanced header */}
+          {/* Enhanced header with progress indicator */}
           <div className="text-center space-y-4 sm:space-y-6 mb-16 sm:mb-20">
             <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-primary-themed/10 via-primary-themed/5 to-primary-themed/10 border border-primary-themed/20 backdrop-blur-sm animate-fade-in">
               <div className="w-2 h-2 bg-primary-themed rounded-full animate-pulse"></div>
@@ -450,124 +470,168 @@ export default function Home() {
 
             <div className="space-y-4">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight leading-tight animate-slide-up">
-                Create Amazing Polls in{" "}
+                From Idea to{" "}
                 <span className="text-primary-themed bg-gradient-to-r from-primary-themed to-primary-themed/60 bg-clip-text text-transparent">
-                  4 Simple Steps
-                </span>
+                  Actionable Insights
+                </span>{" "}
+                in Minutes
               </h2>
               <p className="text-lg sm:text-xl lg:text-2xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto leading-relaxed animate-slide-up" style={{animationDelay: '0.2s'}}>
-                From idea to insights in minutes. Our intuitive process makes poll creation effortless.
+                Streamlined process for data-driven decisions.
               </p>
+            </div>
+
+            {/* Progress indicator */}
+            <div className="flex items-center justify-center gap-2 mt-8 animate-slide-up" style={{animationDelay: '0.4s'}}>
+              <div className="flex items-center gap-1">
+                {[1, 2, 3, 4].map((step) => (
+                  <div key={step} className="flex items-center">
+                    <div className={`w-3 h-3 rounded-full transition-all duration-500 ${
+                      step === 1 ? 'bg-primary-themed scale-125' : 'bg-primary-themed/30'
+                    }`} />
+                    {step < 4 && (
+                      <div className="w-8 h-0.5 bg-primary-themed/20 mx-1" />
+                    )}
+                  </div>
+                ))}
+              </div>
+              <span className="text-sm text-neutral-500 ml-4">4 steps • ~5 minutes total</span>
             </div>
           </div>
 
-          {/* Interactive Process Steps */}
+          {/* Interactive Process Steps with Enhanced Design */}
           <div className="relative">
-            {/* Desktop Timeline Line */}
-            <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary-themed/20 via-primary-themed/40 to-primary-themed/20 transform -translate-x-1/2"></div>
+            {/* Desktop Timeline Line with Progress */}
+            <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-primary-themed/20 via-primary-themed/40 to-primary-themed/20 transform -translate-x-1/2 rounded-full">
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-primary-themed rounded-full animate-pulse"></div>
+            </div>
 
-            <div className="space-y-12 lg:space-y-0">
+            <div className="space-y-8 lg:space-y-8">
               {[
                 {
                   step: 1,
-                  title: "Choose Your Question Type",
-                  description: "Select from multiple question formats - single choice, multiple choice, rating scales, or open-ended questions.",
-                  icon: "📝",
-                  color: "from-blue-500 to-blue-600",
-                  features: ["Multiple formats", "Custom validation", "Smart defaults"]
+                  title: "Spark Your Question",
+                  description: "Transform curiosity into compelling questions.",
+                  icon: "�",
+                  color: "from-amber-400 to-orange-500",
+                  time: "~1 min",
+                  features: ["Smart suggestions", "Question validation", "Audience targeting"],
+                  preview: "Choose from templates or create custom questions that resonate with your audience."
                 },
                 {
                   step: 2,
-                  title: "Customize & Design",
-                  description: "Make it your own with beautiful themes, custom colors, and branding that matches your style.",
+                  title: "Design & Customize",
+                  description: "Make polls visually stunning with tools.",
                   icon: "🎨",
-                  color: "from-purple-500 to-purple-600",
-                  features: ["Brand colors", "Custom themes", "Responsive design"]
+                  color: "from-purple-500 to-pink-500",
+                  time: "~2 min",
+                  features: ["Brand integration", "Visual themes", "Mobile optimization"],
+                  preview: "Apply your brand colors, add images, and choose from beautiful pre-designed themes."
                 },
                 {
                   step: 3,
-                  title: "Share & Collect Responses",
-                  description: "Share your poll instantly via link, embed, or QR code. Watch responses flow in real-time.",
+                  title: "Launch & Share",
+                  description: "Deploy instantly across channels.",
                   icon: "🚀",
-                  color: "from-green-500 to-green-600",
-                  features: ["One-click sharing", "Real-time results", "Multiple channels"]
+                  color: "from-emerald-500 to-teal-500",
+                  time: "~1 min",
+                  features: ["Multi-platform sharing", "Real-time tracking", "Auto-responses"],
+                  preview: "Share via link, embed in websites, or generate QR codes for instant distribution."
                 },
                 {
                   step: 4,
-                  title: "Analyze & Export Insights",
-                  description: "Get beautiful charts, detailed analytics, and export-ready data to make informed decisions.",
-                  icon: "📊",
-                  color: "from-orange-500 to-orange-600",
-                  features: ["Live analytics", "CSV export", "Advanced filters"]
+                  title: "Analyze & Act",
+                  description: "Turn data into insights with analytics.",
+                  icon: "�",
+                  color: "from-blue-500 to-indigo-500",
+                  time: "~1 min",
+                  features: ["Advanced analytics", "Export options", "Trend analysis"],
+                  preview: "View live results, export data, and uncover patterns that drive your decisions."
                 }
               ].map((step, index) => (
                 <div
                   key={step.step}
-                  className={`relative flex flex-col lg:flex-row items-center gap-8 lg:gap-16 animate-slide-up ${
+                  className={`relative flex flex-col lg:flex-row items-center gap-8 lg:gap-12 animate-slide-up group cursor-pointer ${
                     index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
                   }`}
                   style={{animationDelay: `${index * 0.2}s`}}
                 >
-                  {/* Step Number & Icon */}
+                  {/* Step Number & Icon with Enhanced Design */}
                   <div className="relative flex-shrink-0">
-                    <div className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center text-2xl sm:text-3xl shadow-2xl transform transition-all duration-500 hover:scale-110 hover:rotate-6 group`}>
-                      {/* Animated background */}
-                      <div className="absolute inset-0 rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className={`relative w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center text-xl sm:text-2xl shadow-xl transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-2xl`}>
+                      {/* Animated background layers */}
+                      <div className="absolute inset-0 rounded-3xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-2 rounded-2xl bg-gradient-to-br from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                      {/* Icon */}
-                      <span className="relative z-10 transform group-hover:scale-110 transition-transform duration-300">
+                      {/* Icon with enhanced animation */}
+                      <span className="relative z-10 transform group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 drop-shadow-lg">
                         {step.icon}
                       </span>
 
-                      {/* Pulse ring */}
-                      <div className="absolute inset-0 rounded-2xl border-2 border-white/30 animate-ping"></div>
+                      {/* Pulse rings - only on hover */}
+                      <div className={`absolute inset-0 rounded-3xl border-2 ${
+                        step.step === 1 ? 'border-amber-400/60' :
+                        step.step === 2 ? 'border-purple-500/60' :
+                        step.step === 3 ? 'border-emerald-500/60' :
+                        'border-blue-500/60'
+                      } group-hover:animate-ping opacity-0 group-hover:opacity-100`}></div>
+                      <div className={`absolute inset-0 rounded-3xl border ${
+                        step.step === 1 ? 'border-amber-400/40' :
+                        step.step === 2 ? 'border-purple-500/40' :
+                        step.step === 3 ? 'border-emerald-500/40' :
+                        'border-blue-500/40'
+                      } group-hover:animate-ping opacity-0 group-hover:opacity-100`} style={{animationDelay: '0.5s'}}></div>
                     </div>
 
-                    {/* Step number badge */}
-                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-primary-themed rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg">
-                      {step.step}
+                    {/* Step number badge with time */}
+                    <div className="absolute -top-2 -right-2 flex items-center gap-1">
+                      <div className="w-7 h-7 bg-primary-themed rounded-full flex items-center justify-center text-white font-bold text-xs shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        {step.step}
+                      </div>
+                      <div className="px-1.5 py-0.5 bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm rounded-full text-xs font-medium text-neutral-700 dark:text-neutral-300 shadow-sm">
+                        {step.time}
+                      </div>
                     </div>
+
+                    {/* Progress connector for mobile */}
+                    {index < 3 && (
+                      <div className="lg:hidden absolute top-full left-1/2 transform -translate-x-1/2 w-0.5 h-12 bg-gradient-to-b from-primary-themed/40 to-transparent mt-4"></div>
+                    )}
                   </div>
 
-                  {/* Content Card */}
+                  {/* Enhanced Content Card */}
                   <div className={`flex-1 max-w-lg ${index % 2 === 0 ? 'lg:text-left' : 'lg:text-right'}`}>
-                    <div className="relative p-6 sm:p-8 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl rounded-3xl border border-neutral-200/50 dark:border-neutral-800/50 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group">
+                    <div className="relative p-5 sm:p-6 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl rounded-3xl border border-neutral-200/50 dark:border-neutral-800/50 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group-hover:border-primary-themed/30 overflow-hidden">
 
                       {/* Animated background gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-primary-themed/5 via-transparent to-primary-themed/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
+                      <div className={`absolute inset-0 bg-gradient-to-br ${index % 2 === 0 ? 'from-primary-themed/5 via-transparent to-primary-themed/10' : 'from-primary-themed/10 via-transparent to-primary-themed/5'} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl`}></div>
 
-                      {/* Floating particles */}
+                      {/* Floating particles with step-specific colors - only on hover */}
                       <div className="absolute inset-0 pointer-events-none">
-                        <div className="absolute top-4 right-4 w-2 h-2 bg-primary-themed/30 rounded-full animate-ping" style={{animationDelay: '0s'}}></div>
-                        <div className="absolute top-8 right-8 w-1 h-1 bg-primary-themed/40 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
-                        <div className="absolute bottom-6 left-6 w-1.5 h-1.5 bg-primary-themed/20 rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
+                        <div className={`absolute top-4 right-4 w-2 h-2 bg-gradient-to-br ${step.color} rounded-full group-hover:animate-ping opacity-0 group-hover:opacity-30`} style={{animationDelay: '0s'}}></div>
+                        <div className={`absolute top-8 right-8 w-1 h-1 bg-gradient-to-br ${step.color} rounded-full group-hover:animate-ping opacity-0 group-hover:opacity-40`} style={{animationDelay: '1s'}}></div>
+                        <div className={`absolute bottom-6 left-6 w-1.5 h-1.5 bg-gradient-to-br ${step.color} rounded-full group-hover:animate-ping opacity-0 group-hover:opacity-20`} style={{animationDelay: '2s'}}></div>
+                        <div className={`absolute bottom-4 right-6 w-1 h-1 bg-gradient-to-br ${step.color} rounded-full group-hover:animate-ping opacity-0 group-hover:opacity-50`} style={{animationDelay: '3s'}}></div>
                       </div>
 
                       <div className="relative z-10">
-                        <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white mb-3 group-hover:text-primary-themed transition-colors duration-300">
-                          {step.title}
-                        </h3>
-                        <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4 group-hover:text-neutral-700 dark:group-hover:text-neutral-200 transition-colors duration-300">
+                        <div className="flex items-center gap-3 mb-2">
+                          <h3 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white group-hover:text-primary-themed transition-colors duration-300">
+                            {step.title}
+                          </h3>
+                          <div className={`w-2 h-2 rounded-full bg-gradient-to-br ${step.color} group-hover:animate-pulse`}></div>
+                        </div>
+
+                        <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-3 group-hover:text-neutral-700 dark:group-hover:text-neutral-200 transition-colors duration-300">
                           {step.description}
                         </p>
-
-                        {/* Feature highlights */}
-                        <div className="flex flex-wrap gap-2">
-                          {step.features.map((feature, featureIndex) => (
-                            <span
-                              key={feature}
-                              className="inline-flex items-center gap-1 px-3 py-1 bg-primary-themed/10 text-primary-themed rounded-full text-sm font-medium border border-primary-themed/20 group-hover:bg-primary-themed group-hover:text-white transition-all duration-300"
-                              style={{animationDelay: `${(index * 0.2) + (featureIndex * 0.1)}s`}}
-                            >
-                              <div className="w-1.5 h-1.5 bg-current rounded-full animate-pulse"></div>
-                              {feature}
-                            </span>
-                          ))}
-                        </div>
                       </div>
 
-                      {/* Hover glow effect */}
-                      <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary-themed/0 via-primary-themed/5 to-primary-themed/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                      {/* Enhanced hover glow effect */}
+                      <div className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${index % 2 === 0 ? 'from-primary-themed/0 via-primary-themed/5 to-primary-themed/0' : 'from-primary-themed/0 via-primary-themed/5 to-primary-themed/0'} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}></div>
+
+                      {/* Subtle shine effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 rounded-3xl"></div>
                     </div>
                   </div>
                 </div>
@@ -575,20 +639,53 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Interactive CTA */}
-          <div className="text-center mt-16 sm:mt-20 animate-slide-up" style={{animationDelay: '1s'}}>
-            <div className="inline-flex items-center gap-4 p-8 bg-gradient-to-r from-primary-themed/10 via-primary-themed/5 to-primary-themed/10 rounded-3xl border border-primary-themed/20 backdrop-blur-sm">
-              <div className="text-center">
-                <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white mb-2">
-                  Ready to Create Your First Poll?
-                </h3>
-                <p className="text-neutral-600 dark:text-neutral-300 mb-4">
-                  Join thousands of users who trust Polley for their polling needs.
-                </p>
-                <Button asChild size="lg" className="bg-primary-themed hover:opacity-90 text-white shadow-2xl hover:shadow-primary-themed/25 transition-all duration-300 hover:scale-105 text-base px-8 py-3 rounded-xl">
-                  <Link href="/polls/new">Start Creating Now</Link>
+          {/* Enhanced Interactive CTA with Progress Summary */}
+          <div className="text-center mt-12 sm:mt-16 animate-slide-up" style={{animationDelay: '1s'}}>
+            <div className="relative p-8 sm:p-10 bg-gradient-to-r from-primary-themed/10 via-primary-themed/5 to-primary-themed/10 rounded-3xl border border-primary-themed/20 backdrop-blur-sm overflow-hidden">
+              {/* Background animation */}
+              <div className="absolute inset-0 bg-gradient-to-r from-primary-themed/5 via-transparent to-primary-themed/5 opacity-0 hover:opacity-100 transition-opacity duration-500"></div>
+
+              {/* Floating elements - only on hover */}
+              <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-4 right-4 w-3 h-3 bg-primary-themed/30 rounded-full group-hover:animate-ping opacity-0 group-hover:opacity-100" style={{animationDelay: '0s'}}></div>
+                <div className="absolute top-8 left-8 w-2 h-2 bg-primary-themed/40 rounded-full group-hover:animate-ping opacity-0 group-hover:opacity-100" style={{animationDelay: '1s'}}></div>
+                <div className="absolute bottom-6 right-6 w-2.5 h-2.5 bg-primary-themed/20 rounded-full group-hover:animate-ping opacity-0 group-hover:opacity-100" style={{animationDelay: '2s'}}></div>
+              </div>
+
+              <div className="relative z-10 text-center space-y-6">
+                <div className="text-6xl animate-bounce">⚡</div>
+                <div>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-neutral-900 dark:text-white mb-3">
+                    Ready to Create Your First Poll?
+                  </h3>
+                  <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-6 max-w-2xl mx-auto">
+                    Join thousands for meaningful insights.
+                  </p>
+                </div>
+
+                {/* Progress summary */}
+                <div className="flex items-center justify-center gap-6 mb-6">
+                  <div className="flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-neutral-800/60 rounded-xl">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">5 minutes setup</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-neutral-800/60 rounded-xl">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                    <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Real-time results</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-neutral-800/60 rounded-xl">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+                    <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Free forever</span>
+                  </div>
+                </div>
+
+                <Button asChild size="lg" className="bg-primary-themed hover:opacity-90 text-white shadow-2xl hover:shadow-primary-themed/25 transition-all duration-300 hover:scale-105 text-lg px-8 py-4 rounded-xl font-semibold">
+                  <Link href="/polls/new">Start Your Journey</Link>
                 </Button>
               </div>
+
+              {/* Shine effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full hover:translate-x-full transition-transform duration-1000"></div>
             </div>
           </div>
         </div>
@@ -633,7 +730,7 @@ export default function Home() {
                 </span>
               </h2>
               <p className="text-lg sm:text-xl lg:text-2xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto leading-relaxed animate-slide-up" style={{animationDelay: '0.2s'}}>
-                Real numbers from real users making real decisions with Polley.
+                Real numbers from real users.
               </p>
             </div>
           </div>
@@ -753,7 +850,7 @@ export default function Home() {
       </section>
 
       {/* Enhanced Final CTA Section */}
-      <section className="py-20 sm:py-28 lg:py-32 grain-section relative overflow-hidden">
+      <section className="py-20 sm:py-28 lg:py-32 grain-section relative overflow-hidden group">
         {/* Enhanced background effects */}
         <div className="absolute inset-0 mix-blend-soft-light pointer-events-none z-[1] dark:mix-blend-overlay dark:opacity-50">
           <Noise
@@ -774,12 +871,12 @@ export default function Home() {
           <div className="absolute top-1/2 left-1/4 w-48 h-48 bg-primary-themed/8 rounded-full blur-2xl animate-pulse" style={{animationDelay: '6s'}}></div>
         </div>
 
-        {/* Floating particles */}
+        {/* Floating particles - only on hover */}
         <div className="absolute inset-0 pointer-events-none z-[3]">
           {particles.map((particle, i) => (
             <div
               key={i}
-              className="absolute w-2 h-2 bg-primary-themed/20 rounded-full animate-ping"
+              className="absolute w-2 h-2 bg-primary-themed/20 rounded-full group-hover:animate-ping opacity-0 group-hover:opacity-100"
               style={particle}
             />
           ))}
@@ -806,7 +903,7 @@ export default function Home() {
                 </h2>
 
                 <p className="text-xl sm:text-2xl lg:text-3xl text-neutral-600 dark:text-neutral-300 max-w-4xl mx-auto leading-relaxed">
-                  Join thousands of creators who trust Polley to gather meaningful insights and make better decisions.
+                  Join thousands for meaningful insights.
                 </p>
               </div>
 
@@ -819,21 +916,21 @@ export default function Home() {
                     {/* Animated background */}
                     <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                    {/* Floating elements */}
+                    {/* Floating elements - only on hover */}
                     <div className="absolute inset-0 pointer-events-none">
-                      <div className="absolute top-4 right-4 w-3 h-3 bg-white/30 rounded-full animate-ping" style={{animationDelay: '0s'}}></div>
-                      <div className="absolute top-8 right-8 w-2 h-2 bg-white/40 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
-                      <div className="absolute bottom-6 left-6 w-2.5 h-2.5 bg-white/20 rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
+                      <div className="absolute top-4 right-4 w-3 h-3 bg-white/30 rounded-full group-hover:animate-ping opacity-0 group-hover:opacity-100" style={{animationDelay: '0s'}}></div>
+                      <div className="absolute top-8 right-8 w-2 h-2 bg-white/40 rounded-full group-hover:animate-ping opacity-0 group-hover:opacity-100" style={{animationDelay: '1s'}}></div>
+                      <div className="absolute bottom-6 left-6 w-2.5 h-2.5 bg-white/20 rounded-full group-hover:animate-ping opacity-0 group-hover:opacity-100" style={{animationDelay: '2s'}}></div>
                     </div>
 
                     <div className="relative z-10 text-center space-y-6">
                       <div className="text-6xl sm:text-7xl animate-bounce">🚀</div>
                       <div>
-                        <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3">
+                        <h3 className="text-2xl sm:text-3xl font-bold text-neutral-900 dark:text-white mb-3">
                           Start Creating Now
                         </h3>
-                        <p className="text-white/90 leading-relaxed mb-6">
-                          Create your first poll in under 2 minutes. No credit card required.
+                        <p className="text-neutral-900 dark:text-white leading-relaxed mb-6">
+                          Create your first poll in under 2 minutes.
                         </p>
                       </div>
                       <Button asChild size="lg" className="bg-white text-primary-themed hover:bg-white/90 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 text-lg px-8 py-4 rounded-xl font-semibold">
@@ -853,11 +950,11 @@ export default function Home() {
                     {/* Animated background gradient */}
                     <div className="absolute inset-0 bg-gradient-to-br from-primary-themed/5 via-transparent to-primary-themed/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                    {/* Floating elements */}
+                    {/* Floating elements - only on hover */}
                     <div className="absolute inset-0 pointer-events-none">
-                      <div className="absolute top-4 right-4 w-3 h-3 bg-primary-themed/30 rounded-full animate-ping" style={{animationDelay: '0.5s'}}></div>
-                      <div className="absolute top-8 right-8 w-2 h-2 bg-primary-themed/40 rounded-full animate-ping" style={{animationDelay: '1.5s'}}></div>
-                      <div className="absolute bottom-6 left-6 w-2.5 h-2.5 bg-primary-themed/20 rounded-full animate-ping" style={{animationDelay: '2.5s'}}></div>
+                      <div className="absolute top-4 right-4 w-3 h-3 bg-primary-themed/30 rounded-full group-hover:animate-ping opacity-0 group-hover:opacity-100" style={{animationDelay: '0.5s'}}></div>
+                      <div className="absolute top-8 right-8 w-2 h-2 bg-primary-themed/40 rounded-full group-hover:animate-ping opacity-0 group-hover:opacity-100" style={{animationDelay: '1.5s'}}></div>
+                      <div className="absolute bottom-6 left-6 w-2.5 h-2.5 bg-primary-themed/20 rounded-full group-hover:animate-ping opacity-0 group-hover:opacity-100" style={{animationDelay: '2.5s'}}></div>
                     </div>
 
                     <div className="relative z-10 text-center space-y-6">
@@ -867,7 +964,7 @@ export default function Home() {
                           Explore Examples
                         </h3>
                         <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-6">
-                          See what others are creating and get inspired for your next poll.
+                          See what others are creating.
                         </p>
                       </div>
                       <Button asChild variant="secondary" size="lg" className="border-2 border-primary-themed text-primary-themed hover:bg-primary-themed hover:text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 text-lg px-8 py-4 rounded-xl font-semibold">
