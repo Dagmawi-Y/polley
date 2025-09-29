@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Polley - Create and Share Polls",
   description: "Create engaging polls and gather opinions from your audience with Polley.",
+  icons: {
+    icon: '/polley-logo.svg',
+  },
 };
 
 export default function RootLayout({
