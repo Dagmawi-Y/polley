@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Noise } from '@/components/ui/noise';
 
-export default function PollSuccessPage() {
+function PollSuccessContent() {
   const searchParams = useSearchParams();
   const pollId = searchParams.get('id');
   const [copied, setCopied] = useState(false);
@@ -41,7 +41,7 @@ export default function PollSuccessPage() {
   const pollUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/polls/${pollId}`;
   const shareUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/vote/${pollId}`;
 
-  const copyToClipboard = async (text: string, type: 'link' | 'share') => {
+  const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
@@ -138,7 +138,7 @@ export default function PollSuccessPage() {
                     variant="outline"
                     size="sm"
                     className="w-full"
-                    onClick={() => copyToClipboard(shareUrl, 'share')}
+                    onClick={() => copyToClipboard(shareUrl)}
                   >
                     {copied ? (
                       <>
@@ -271,5 +271,20 @@ export default function PollSuccessPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PollSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="grain-bg min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-primary-themed border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-neutral-600 dark:text-neutral-400">Loading...</p>
+        </div>
+      </div>
+    }>
+      <PollSuccessContent />
+    </Suspense>
   );
 }

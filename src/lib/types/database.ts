@@ -153,8 +153,26 @@ export interface Database {
           poll_id: string
         }
         Returns: {
-          poll_info: any
-          options: any
+          poll_info: {
+            id: string
+            title: string
+            description: string | null
+            status: 'draft' | 'active' | 'closed'
+            is_public: boolean
+            allow_multiple: boolean
+            require_auth: boolean
+            expires_at: string | null
+            created_at: string
+            updated_at: string
+            created_by: string | null
+          }
+          options: {
+            id: string
+            text: string
+            position: number
+            vote_count: number
+            vote_percentage: number
+          }[]
           total_votes: number
           unique_voters: number
         }[]

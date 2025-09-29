@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -96,7 +96,7 @@ export default function SignInPage() {
         </CardContent>
         <CardFooter className="justify-center pb-6">
           <Button variant="ghost" asChild className="p-0">
-            <Link href="/auth/sign-up">Don't have an account? Sign up</Link>
+            <Link href="/auth/sign-up">Don&apos;t have an account? Sign up</Link>
           </Button>
         </CardFooter>
       </Card>

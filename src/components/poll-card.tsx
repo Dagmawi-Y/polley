@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Noise } from '@/components/ui/noise';
 import { cn } from '@/lib/utils';
-import type { Poll, PollOption } from '@/lib/types/database';
+import type { Poll } from '@/lib/types/database';
 
 interface PollCardProps {
   poll: Poll;

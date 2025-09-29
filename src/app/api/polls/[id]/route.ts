@@ -3,16 +3,17 @@ import { createSupabaseServerClient } from '@/lib/supabase/server'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const supabase = createSupabaseServerClient()
-    const pollId = params.id
+    const { id: pollId } = await params
 
     // Get poll results using database function
-    const { data: results, error } = await supabase.rpc('get_poll_results', {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: results, error } = await (supabase.rpc('get_poll_results', {
       poll_id: pollId
-    })
+    } as any) as any)
 
     if (error) {
       console.error('Database error getting poll results:', error)
@@ -45,7 +46,7 @@ export async function GET(
       createdAt: pollInfo.created_at,
       updatedAt: pollInfo.updated_at,
       createdBy: pollInfo.created_by,
-      options: options.map((opt: any) => ({
+      options: options.map((opt: any) => ({ // eslint-disable-line @typescript-eslint/no-explicit-any
         id: opt.id,
         text: opt.text,
         position: opt.position,

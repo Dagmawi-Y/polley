@@ -4,11 +4,11 @@ import { getClientIP } from '@/lib/utils/ip'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const supabase = createSupabaseServerClient()
-    const pollId = params.id
+    const { id: pollId } = await params
 
     // Parse request body
     const { optionId } = await request.json()
@@ -25,12 +25,13 @@ export async function POST(
     const userAgent = request.headers.get('user-agent') || 'unknown'
 
     // Cast vote using database function
-    const { data: voteId, error } = await supabase.rpc('cast_vote', {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: voteId, error } = await (supabase.rpc('cast_vote', {
       poll_id: pollId,
       option_id: optionId,
       voter_ip: voterIp,
       user_agent: userAgent
-    })
+    } as any) as any)
 
     if (error) {
       console.error('Database error casting vote:', error)

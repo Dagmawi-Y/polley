@@ -36,7 +36,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Create poll using database function
-    const { data: pollId, error } = await supabase.rpc('create_poll_with_options', {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: pollId, error } = await (supabase.rpc('create_poll_with_options', {
       poll_title: body.title,
       poll_options: body.options,
       poll_description: body.description || null,
@@ -44,7 +45,7 @@ export async function POST(request: NextRequest) {
       allow_multiple: body.allowMultiple ?? false,
       require_auth: body.requireAuth ?? false,
       expires_at: body.expiresAt?.toISOString() || null
-    })
+    } as any) as any)
 
     if (error) {
       console.error('Database error creating poll:', error)

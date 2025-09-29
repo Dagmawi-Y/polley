@@ -61,7 +61,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     try {
       localStorage.setItem("theme", theme);
       localStorage.setItem("colorTheme", colorTheme);
-    } catch (e) {
+    } catch {
       // ignore localStorage errors (e.g. privacy mode)
     }
   }, [theme, colorTheme]);

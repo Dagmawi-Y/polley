@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "secondary" | "ghost" | "primary";
+  variant?: "default" | "secondary" | "ghost" | "primary" | "outline";
   size?: "sm" | "md" | "lg";
   asChild?: boolean;
 }
@@ -18,6 +18,8 @@ const variants: Record<NonNullable<ButtonProps["variant"]>, string> = {
     "bg-neutral-100 text-neutral-900 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700",
   ghost:
     "bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-900 dark:text-neutral-100",
+  outline:
+    "border border-neutral-200 bg-transparent hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800 text-neutral-900 dark:text-neutral-100",
 };
 
 const sizes: Record<NonNullable<ButtonProps["size"]>, string> = {
@@ -30,14 +32,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "default", size = "md", asChild, children, ...props }, ref) => {
     const classes = cn(base, variants[variant], sizes[size], className);
     if (asChild && React.isValidElement(children)) {
-      const child = children as React.ReactElement<any>;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const extraProps: any = {
-        className: cn(classes, (child.props as any)?.className),
+      const child = children as React.ReactElement;
+      const extraProps: Record<string, unknown> = {
+        className: cn(classes, (child.props as { className?: string })?.className),
       };
       // TypeScript can't know the child's prop shape here; cast is safe for className augmentation.
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      return React.cloneElement(child, extraProps) as unknown as any;
+      return React.cloneElement(child, extraProps) as React.ReactElement;
     }
     return (
       <button

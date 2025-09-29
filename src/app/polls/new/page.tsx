@@ -270,7 +270,7 @@ export default function CreatePollPage() {
                   {currentStep === 1 && (
                     <div className="space-y-6">
                       <div>
-                        <h2 className="text-2xl font-bold mb-2">Let's start with the basics</h2>
+                        <h2 className="text-2xl font-bold mb-2">Let&apos;s start with the basics</h2>
                         <p className="text-neutral-600 dark:text-neutral-400">
                           Give your poll a compelling title and description
                         </p>
@@ -509,7 +509,7 @@ export default function CreatePollPage() {
                       <div>
                         <h2 className="text-2xl font-bold mb-2">Review your poll</h2>
                         <p className="text-neutral-600 dark:text-neutral-400">
-                          Everything looks good? Let's publish your poll!
+                          Everything looks good? Let&apos;s publish your poll!
                         </p>
                       </div>
 
@@ -586,7 +586,7 @@ export default function CreatePollPage() {
                   </div>
                   <div className="flex items-start gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary-themed mt-2 shrink-0" />
-                    <span>Consider adding an "Other" option for flexibility</span>
+                    <span>Consider adding an &quot;Other&quot; option for flexibility</span>
                   </div>
                 </div>
               </div>

@@ -17,5 +17,6 @@ export function getClientIP(request: NextRequest): string {
   if (realIp) return realIp
   
   // Fallback to connection remote address (may not work in all environments)
-  return request.ip || 'unknown'
+  // Note: In Next.js 15, request.ip is not available, using headers instead
+  return 'unknown'
 }

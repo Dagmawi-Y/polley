@@ -1,10 +1,11 @@
 import { supabase } from './client'
-import type { Database, Poll, PollOption, CreatePollData, VoteData } from '../types/database'
+import type { Poll, CreatePollData, VoteData } from '../types/database'
 
 // Client-side functions
 export async function createPoll(data: CreatePollData): Promise<{ data: string | null; error: string | null }> {
   try {
-    const { data: result, error } = await supabase.rpc('create_poll_with_options', {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: result, error } = await (supabase.rpc('create_poll_with_options', {
       poll_title: data.title,
       poll_options: data.options,
       poll_description: data.description || null,
@@ -12,7 +13,7 @@ export async function createPoll(data: CreatePollData): Promise<{ data: string |
       allow_multiple: data.allowMultiple,
       require_auth: data.requireAuth,
       expires_at: data.expiresAt?.toISOString() || null
-    })
+    } as any) as any)
 
     if (error) {
       console.error('Error creating poll:', error)
@@ -53,9 +54,10 @@ export async function castVote(data: VoteData): Promise<{ data: string | null; e
 
 export async function getPollResults(pollId: string): Promise<{ data: Poll | null; error: string | null }> {
   try {
-    const { data: results, error } = await supabase.rpc('get_poll_results', {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: results, error } = await (supabase.rpc('get_poll_results', {
       poll_id: pollId
-    })
+    } as any) as any)
 
     if (error) {
       console.error('Error getting poll results:', error)
@@ -82,7 +84,7 @@ export async function getPollResults(pollId: string): Promise<{ data: Poll | nul
       createdAt: new Date(pollInfo.created_at),
       updatedAt: new Date(pollInfo.updated_at),
       createdBy: pollInfo.created_by,
-      options: options.map((opt: any) => ({
+      options: options.map((opt: { id: string; text: string; position: number; vote_count: number; vote_percentage: number }) => ({
         id: opt.id,
         text: opt.text,
         position: opt.position,
@@ -134,7 +136,7 @@ export async function getPublicPolls(page = 0, pageSize = 20): Promise<{ data: P
 
     // Get options for each poll
     const pollsWithOptions = await Promise.all(
-      (pollStats || []).map(async (pollStat) => {
+      ((pollStats || []) as any[]).map(async (pollStat) => {
         const { data: options, error: optionsError } = await supabase
           .from('option_stats')
           .select('*')
@@ -158,7 +160,7 @@ export async function getPublicPolls(page = 0, pageSize = 20): Promise<{ data: P
           createdAt: new Date(pollStat.created_at),
           updatedAt: new Date(pollStat.updated_at),
           createdBy: pollStat.created_by,
-          options: (options || []).map((opt) => ({
+          options: ((options || []) as any[]).map((opt) => ({
             id: opt.id,
             text: opt.text,
             position: opt.position,

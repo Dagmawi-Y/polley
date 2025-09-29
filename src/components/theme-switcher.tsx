@@ -2,7 +2,7 @@
 
 import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const colorThemes = [
   { name: "blue", value: "blue", color: "#3b82f6" },
@@ -31,13 +31,11 @@ export function ThemeSwitcher() {
     setCurrentIndex(index >= 0 ? index : 0);
   }, [colorTheme, theme, availableThemes]);
 
-  const currentColor = availableThemes[currentIndex];
   const nextIndex = (currentIndex + 1) % availableThemes.length;
   
   // Calculate circle segments for proper donut display
   const segmentAngle = 360 / availableThemes.length;
   const radius = 14;
-  const circumference = 2 * Math.PI * radius;
 
   const handleColorChange = () => {
     const nextTheme = availableThemes[nextIndex];

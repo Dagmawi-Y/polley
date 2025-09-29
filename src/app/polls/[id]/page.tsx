@@ -13,7 +13,6 @@ export default function PollPage() {
   const params = useParams();
   const pollId = params.id as string;
   const [poll, setPoll] = useState<Poll | null>(null);
-  const [hasVoted, setHasVoted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,8 +38,7 @@ export default function PollPage() {
         setPoll(pollData);
         
         // Check if user has already voted
-        const { data: voted } = await hasUserVoted(pollId);
-        setHasVoted(voted);
+        await hasUserVoted(pollId);
         
       } catch (err) {
         console.error('Error loading poll:', err);

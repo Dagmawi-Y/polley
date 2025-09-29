@@ -221,7 +221,7 @@ export default function VotePage() {
           {/* Post-vote actions */}
           {hasVoted && (
             <div className="bg-white/60 dark:bg-neutral-900/60 backdrop-blur-sm rounded-2xl p-6 border border-neutral-200/60 dark:border-neutral-800/60 text-center space-y-4 animate-in slide-in-from-bottom-5 duration-500">
-              <h3 className="font-semibold">What's next?</h3>
+              <h3 className="font-semibold">What&apos;s next?</h3>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button asChild variant="outline">
                   <Link href="/polls">
